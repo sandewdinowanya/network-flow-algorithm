@@ -8,21 +8,21 @@ package networkflow.java.model;
  * flow - actual amount of resources that is passing through an edge in the network
  */
 public class Edge {
-    private final int SOURCE;
-    private final int DESTINATION;
-    private final int CAPACITY;
+    private final int source;
+    private final int destination;
+    private final int capacity;
     private int flow;
 
     /**
      * constructs a new edge with the given source, destination and capacity
-     * @param SOURCE  the starting node (source node)
-     * @param DESTINATION  the ending node (destination node)
-     * @param CAPACITY  the maximum amount of flow that can pass through an edge
+     * @param source  the starting node (source node)
+     * @param destination  the ending node (destination node)
+     * @param capacity  the maximum amount of flow that can pass through an edge
      */
-    public Edge(int SOURCE, int DESTINATION, int CAPACITY) {
-        this.SOURCE = SOURCE;
-        this.DESTINATION = DESTINATION;
-        this.CAPACITY = CAPACITY;
+    public Edge(int source, int destination, int capacity) {
+        this.source = source;
+        this.destination = destination;
+        this.capacity = capacity;
         this.flow = 0;
     }
 
@@ -30,24 +30,24 @@ public class Edge {
      * Returns the source node of this edge
      * @return the source node
      */
-    public int getSOURCE() {
-        return SOURCE;
+    public int getSource() {
+        return source;
     }
 
     /**
      * Returns the destination node of this edge
      * @return the destination node
      */
-    public int getDESTINATION() {
-        return DESTINATION;
+    public int getDestination() {
+        return destination;
     }
 
     /**
      * Returns the capacity of the edge
      * @return the capacity
      */
-    public int getCAPACITY() {
-        return CAPACITY;
+    public int getCapacity() {
+        return capacity;
     }
 
     /**
@@ -71,16 +71,16 @@ public class Edge {
      * @return the remaining capacity(redualcapacity)
      */
     public int getResidualCapacity(){
-        return CAPACITY-flow;
+        return capacity-flow;
     }
 
     @Override
     public String toString() {
         return "Edge{" +
-                "SOURCE -> " + SOURCE +
-                ", DESTINATION (" + DESTINATION +
+                "SOURCE -> " + source +
+                ", destination (" + destination +
                 ", flow / " + flow +
-                ", CAPACITY=" + CAPACITY +
+                ", capacity=" + capacity +
                 '}';
     }
 }
