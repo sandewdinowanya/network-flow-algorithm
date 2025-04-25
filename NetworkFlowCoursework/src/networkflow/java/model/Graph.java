@@ -55,6 +55,15 @@ public class Graph {
     }
 
     /**
+     * gets all edges in the paragraph
+     *
+     * @return list of all edges
+     */
+    public List<Edge> getAllEdgesFrom(int node){
+        return adjacencyList[node];
+    }
+
+    /**
      * Gets all edges in the graph
      * @return List of all edges
      */
@@ -94,10 +103,4 @@ public class Graph {
         }
         return sb.toString();
     }
-
-
-
-
-
-
 }
