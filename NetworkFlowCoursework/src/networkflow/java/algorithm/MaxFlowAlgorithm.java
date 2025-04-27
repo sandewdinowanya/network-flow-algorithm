@@ -6,7 +6,8 @@ import networkflow.java.model.Graph;
 import java.util.*;
 
 /**
- * Implementation of the
+ * Implementation of the Ford-Fulkerson algorithm using BFS
+ * for finding maximum flow in a network flow problem
  */
 public class MaxFlowAlgorithm {
     private final Graph graph;
@@ -24,6 +25,11 @@ public class MaxFlowAlgorithm {
 
     /**
      * finds the maximum flow from source to sink using the Ford-Fulkerson algorithm
+     * Uses BFS to find augmenting paths
+     *
+     * @param source The source node
+     * @param sink The sink node
+     * @return The maximum flow value
      */
     public int findMaxFlow(int source, int sink) {
         int maxFlow = 0;
@@ -88,6 +94,14 @@ public class MaxFlowAlgorithm {
         return maxFlow;
     }
 
+    /**
+     * Finds an augmenting path source to sink using BFS
+     *
+     * @param source  The source node
+     * @param sink    The sink node
+     * @param parent  Array to store the path
+     * @return true if an augmenting path exists, false otherwise
+     */
     private boolean findAugmentingPath(int source, int sink, int[] parent) {
         int numNodes = graph.getNumNodes();
         boolean[] visited = new boolean[numNodes];
@@ -122,6 +136,11 @@ public class MaxFlowAlgorithm {
         return visited[sink];
     }
 
+    /**
+     * Gets the current state of all flows in the graph as a formatted String
+     *
+     * @return  String representing current flows
+     */
     private String getCurrentFlowState(){
         StringBuilder sb = new StringBuilder("current flow state:\n");
 
@@ -133,7 +152,7 @@ public class MaxFlowAlgorithm {
                             .append(" -> ").append(edge.getDestination())
                             .append(": Flow = ").append(edge.getFlow())
                             .append("/").append(edge.getCapacity())
-                            .append("/n");
+                            .append("\n");
                 }
             }
         }
@@ -143,6 +162,7 @@ public class MaxFlowAlgorithm {
 
     /**
      * Gets the detailed steps of the algorithm execution
+     *
      * @return List of Strings describing each step
      */
     public List<String> getSteps(){

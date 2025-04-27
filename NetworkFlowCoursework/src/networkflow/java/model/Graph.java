@@ -7,28 +7,31 @@ import java.util.List;
  * Represents a flow network as a directed graph with capacities on edges
  */
 public class Graph {
-        private final int numNodes;
-        private final List<Edge>[] adjacencyList;
-        private final List<Edge> edges;
+        private final int numNodes;                 // Number of nodes in the graph
+        private final List<Edge>[] adjacencyList;   // Adjacency list representation
+        private final List<Edge> edges;             // List of all edges for easy access
 
     /**
      * constructs a new graph with the given number of nodes
+     *
+     * @param numNodes the number of nodes
      */
     @SuppressWarnings("uncheked")
 
-    public Graph(int numNodes, List<Edge>[] adjacencyList, List<Edge> edges) {
-        this.numNodes = numNodes;
+    public Graph(int numNodes) {
+        this.numNodes      = numNodes;
         this.adjacencyList = new ArrayList[numNodes];
-        this.edges = new ArrayList<>();
+        this.edges         = new ArrayList<>();
 
         // initialize adjacency list for all nodes
-        for(int i=0; i<numNodes; i++){
-            adjacencyList[i]=new ArrayList<>();
+        for(int i = 0; i < numNodes; i++){
+            adjacencyList[i] = new ArrayList<>();
         }
     }
 
     /**
      * Returns the number of nodes in the graph
+     *
      * @return the number of nodes
      */
     public int getNumNodes() {
@@ -37,6 +40,7 @@ public class Graph {
 
     /**
      * adds a directed edge to the graph with the given capacity
+     *
      * @param source the source node
      * @param destination  the destination node
      * @param capacity  the capacity of the edge
@@ -55,16 +59,17 @@ public class Graph {
     }
 
     /**
-     * gets all edges in the paragraph
+     * gets all edges leaving the given node
      *
      * @return list of all edges
      */
-    public List<Edge> getAllEdgesFrom(int node){
+    public List<Edge> getEdgesFrom(int node){
         return adjacencyList[node];
     }
 
     /**
      * Gets all edges in the graph
+     *
      * @return List of all edges
      */
     public List<Edge> getAllEdges(){
@@ -73,6 +78,7 @@ public class Graph {
 
     /**
      * Finds an edge from source to destination if it exists
+     *
      * @param source the source node
      * @param destination   the destination node
      * @return  the edge or null if not found
@@ -86,10 +92,14 @@ public class Graph {
         return null;
     }
 
+    /**
+     * Returns a string representation of this graph
+     * @return A string representation
+     */
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("Graph with ").append(numNodes).append(" nodes:/n");
+        sb.append("Graph with ").append(numNodes).append(" nodes:\n");
 
         for(int i = 0; i < numNodes; i++){
             sb.append("Node ").append(i).append(" edges: ");
