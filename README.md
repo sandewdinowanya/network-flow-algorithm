@@ -1,112 +1,142 @@
-# 📊 Network Flow Algorithm - Coursework Project
+# Network Flow Algorithm Implementation
 
-This project implements a **maximum flow** algorithm using graph representations of flow networks. The program reads flow networks from input files and computes the **maximum flow** from a given source node to a target (sink) node. This coursework is a part of the Algorithms module.
+This project implements a solution for finding maximum flow in a network using the Ford-Fulkerson algorithm with DFS path finding.
 
----
+## Overview
 
-## 🧠 Problem Overview
+The network flow problem involves finding the maximum amount of flow that can be sent from a source node to a target node in a directed graph with capacity constraints on each edge. This implementation handles integer capacities and follows the conservation of flow principle at each node.
 
-In many real-world scenarios like traffic systems, data networks, and water pipelines, we deal with *flow networks*. These are modeled as **directed graphs**, where:
+## Project Structure
 
-- **Nodes** represent switches, junctions, or routers.
-- **Edges** carry flow (e.g., vehicles, data packets, liquid).
-- Each edge has a **capacity**.
-- A **source node** generates flow.
-- A **sink node** absorbs flow.
+```
+networkflow/
+├── src/
+│   ├── FlowNetwork.java         # Network graph representation with adjacency matrix
+│   ├── NetworkFlowParser.java   # Parses network from input files  
+│   ├── MaxFlowAlgorithm.java    # Ford-Fulkerson algorithm implementation
+│   └── Main.java               # Entry point of the application
+├── input/
+│   ├── example1.txt            # Sample network files
+│   ├── example2.txt
+│   └── benchmark_*.txt
+└── output/
+    └── results.txt             # Algorithm execution results
+```
 
-### Flow Rules
-- The **flow on an edge** must not exceed its capacity.
-- **Flow conservation** applies to all intermediate nodes (except source and sink):  
-  Flow In = Flow Out
+## Dependencies
 
-### Objective
-Find the **maximum flow** from source (node `s`) to target (node `t`) in the network.
+- Java Development Kit (JDK) 8 or higher
+- No external libraries required
 
----
+## How to Run
 
-## 🛠️ Features and Tasks
+1. Compile the project:
+   ```
+   javac -d bin src/*.java
+   ```
 
-### ✅ Task 1 - Project Setup (Java/C++)
-- Initialized a clean, modular project.
-- Follows programming standards for readability and maintainability.
+2. Run with input file:
+   ```
+   java -cp bin Main input/example1.txt
+   ```
 
-### ✅ Task 2 - Data Structure
-- Represented the graph using **adjacency lists**.
-- Stored capacities and current flows using nested maps or matrices.
-- Provided helper methods for basic graph operations (add/remove/search edges).
+3. Run with default example:
+   ```
+   java -cp bin Main
+   ```
 
-### ✅ Task 3 - Input Parser
-- Supports reading from text files with the following structure:
-- Automatically builds the internal graph from the input.
+## Input File Format
 
-### ✅ Task 4 - Max Flow Algorithm
-- Implemented the **Ford-Fulkerson** algorithm using BFS for augmenting path search (Edmonds-Karp variant).
-- Tracks incremental changes and displays the path-wise flow updates.
-- Outputs:
-- Maximum flow value.
-- Flow on each edge.
-- Step-by-step progress (optional).
+The input file should follow this format:
+- First line: Number of nodes n (nodes are numbered 0 to n-1)
+- Following lines: Edge definitions as "from to capacity"
+- Node 0 is the source, and node n-1 is the target
 
-### ✅ Task 5 - Report
-- Explained algorithm choice and data structure.
-- Showed step-by-step execution on a small benchmark.
-- Provided performance analysis and time complexity.
+Example:
+```
+4
+0 1 6
+0 2 4
+1 2 2
+1 3 3
+2 3 5
+```
 
----
+## Sample Output
 
-## 🚀 Getting Started
+```
+Network Flow Analysis
+====================
 
-### Requirements
-- Java (JDK 11+) or C++ (C++11+)
-- IDE: IntelliJ / Eclipse (Java) or Code::Blocks / Visual Studio (C++)
-- CLI or terminal access
+Input Network:
+Nodes: 4 (Source: 0, Target: 3)
+Edges: 5
 
-### Run Instructions
+Ford-Fulkerson Algorithm Execution:
+Step 1: Found augmenting path: 0 -> 1 -> 3
+        Bottleneck capacity: 3
+        Flow increased by: 3
+        Current total flow: 3
 
-1. Clone the repository:
- ```bash
- git clone https://github.com/your-username/network-flow-algorithm.git
- cd network-flow-algorithm
+Step 2: Found augmenting path: 0 -> 2 -> 3
+        Bottleneck capacity: 5
+        Flow increased by: 5
+        Current total flow: 8
 
-2. Compile the project:
-Java:
-javac src/*.java
-java Main input.txt
+Step 3: Found augmenting path: 0 -> 1 -> 2 -> 3
+        Bottleneck capacity: 0
+        No more augmenting paths found
 
-3. Prepare input file as described and provide the filename as a command-line argument.
+Final Results:
+Maximum Flow: 8
 
-Reading input...
-Network initialized with 4 nodes.
-Applying Ford-Fulkerson Algorithm...
-Augmenting path found: 0 -> 1 -> 3 | Bottleneck: 3
-Augmenting path found: 0 -> 2 -> 3 | Bottleneck: 4
-Augmenting path found: 0 -> 1 -> 2 -> 3 | Bottleneck: 1
+Flow Assignment:
+Edge (0,1): 4/6
+Edge (0,2): 4/4
+Edge (1,2): 1/2
+Edge (1,3): 3/3
+Edge (2,3): 5/5
+```
 
-Final Flow:
-f(0,1) = 4
-f(0,2) = 4
-f(1,2) = 1
-f(1,3) = 3
-f(2,3) = 5
+## Implementation Details
 
-Maximum Flow from source to sink: 8
+This implementation uses:
+- Adjacency matrix representation for the flow network
+- Ford-Fulkerson algorithm with Depth-First Search (DFS) to find augmenting paths
+- Integer capacities and flows
+- Detailed step-by-step execution trace
+- Flow conservation validation
 
-📚 Folder Structure
-css
-Copy
-Edit
-network-flow-algorithm/
-│
-├── src/                     # Source code
-│   ├── Main.java / main.cpp
-│   ├── Graph.java / Graph.cpp
-│   └── MaxFlowSolver.java / MaxFlow.cpp
-│
-├── input/                   # Example test files
-│   └── sample.txt
-│
-├── report/                  # Task 5 report
-│   └── NetworkFlow_Report.pdf
-│
-├── README.md
-└── LICENSE
+## Algorithm Explanation
+
+The Ford-Fulkerson algorithm works by repeatedly finding augmenting paths from source to target and pushing flow along these paths. The implementation:
+
+1. Starts with zero flow on all edges
+2. Uses DFS to find augmenting paths from source to target
+3. Determines the bottleneck capacity along each path
+4. Augments the flow by the bottleneck value
+5. Updates residual capacities
+6. Continues until no more augmenting paths exist
+
+## Performance Analysis
+
+- Time Complexity: O(E × f) where E is the number of edges and f is the maximum flow value
+- Space Complexity: O(V²) for adjacency matrix representation, where V is the number of vertices
+
+## Testing
+
+Run the program with different input files to test various network configurations:
+
+```bash
+java -cp bin Main input/example1.txt    # Basic 4-node network
+java -cp bin Main input/example2.txt    # More complex network
+```
+
+## Output Explanation
+
+The program outputs:
+- Network statistics (nodes, edges)
+- Step-by-step algorithm execution with augmenting paths
+- Final maximum flow value
+- Complete flow assignment showing flow/capacity for each edge
+- Execution time for performance analysis
